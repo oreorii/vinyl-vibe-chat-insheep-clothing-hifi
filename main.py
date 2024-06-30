@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify, render_template
 import openai
 import os
-from functions import load_articles, search_articles, fetch_article_content, fetch_all_articles, save_articles, download_spacy_model, extract_music_keywords, append_relevant_articles, flatten_keywords, fetch_articles_from_page, find_correct_link, get_next_page, fetch_all_articles
-import spacy
+from functions import load_articles, extract_music_keywords, append_relevant_articles, flatten_keywords
+
 app = Flask(__name__)
 
 articles = load_articles()
