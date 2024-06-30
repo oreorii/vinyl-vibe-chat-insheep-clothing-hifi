@@ -10,6 +10,10 @@ openai = "^1.28.2"
 beautifulsoup4 = "^4.12.3"
 requests = "^2.32.3"
 web-scraper = "^1.0"
+flask = "^3.0.3"
+embedchain = "^0.1.113"
+python-dotenv = "^1.0.1"
+spacy = "^3.7.5"
 
 [tool.poetry.dev-dependencies]
 debugpy = "^1.6.2"
