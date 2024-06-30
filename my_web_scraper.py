@@ -118,5 +118,5 @@ def load_articles(filename='articles.json'):
 # Function to search articles for a keyword
 def search_articles(keyword, articles):
     keyword = keyword.lower()
-    results = [article for article in articles if keyword in article['title'].lower() or keyword in article['summary'].lower()]
+    results = [article for article in articles if keyword in article['title'].lower()]
     return results
