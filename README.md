@@ -1,4 +1,4 @@
-# 🎵 Vinyl Vibes Bot 🎧
+# 🎵 Vinyl Vibes Bot 🎵
 Welcome to the Vinyl Vibes Chat Bot repository! This project is a real-time chat bot built with Flask, designed to collect and share quality information on music and hi-fi audio.
 
 🎉 Check out the bot and discover new music here: [Vinyl Vibe Chat](https://vinyl-vibe-chat.replit.app) 🎧
