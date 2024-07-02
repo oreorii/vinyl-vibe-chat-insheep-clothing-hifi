@@ -7,12 +7,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Include Patrick Hand Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Include Poppins Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Patrick Hand', cursive;
+      font-family: 'Poppins', sans-serif;
     }
     .chat-container {
       display: flex;
@@ -23,7 +22,7 @@
       flex-shrink: 0;
       background-color: white;
       z-index: 10;
-      font-family: 'Patrick Hand', cursive;
+      font-family: 'Poppins', sans-serif;
       font-size: 2.5rem;
       padding: 1rem;
       text-align: center;
@@ -52,10 +51,11 @@
     }
     .message {
       align-items: flex-start;
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
     .message-text {
-      font-size: 1.2rem;
+      font-size: 1rem;
+      margin: 1rem;
     }
     .bot-icon, .user-icon {
       height: 40px;
@@ -69,7 +69,7 @@
       padding: 1rem;
     }
     .input-field {
-      font-family: 'Patrick Hand', cursive;
+      font-family: 'Poppins', sans-serif;
       font-size: 1.2rem;
       padding-left: 1rem;
     }
@@ -110,7 +110,7 @@
             <div class="flex flex-row items-start message">
               <img src="static/icon.png" alt="Bot Icon" class="bot-icon" />
               <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                <div class="message-text">Hi there! You've got great taste in music. Ask me anything about vinyl and music culture – let's groove together!</div>
+                <div class="message-text">Hi there! You've got great taste in music. Ask me anything about jazz and HiFi – let's groove together!<br><br>for example, you can ask "recommend me a jazz artist for today" or "recommend me a HiFi stereo system brand" </div>
               </div>
             </div>
           </div>

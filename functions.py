@@ -3,10 +3,12 @@ import json
 import os
 import spacy
 
+
 # Function to load articles from a JSON file
 def load_articles(filename='full_articles.json'):
     with open(filename, 'r') as f:
         return json.load(f)
+
 
 # Load the spaCy model
 def download_spacy_model():
@@ -18,16 +20,30 @@ def download_spacy_model():
         nlp = spacy.load("en_core_web_sm")
     return nlp
 
+
 nlp = download_spacy_model()
 # Load the articles from the JSON file
 articles = load_articles('full_articles.json')
 # List of keywords related to music
 music_keywords = {
-    "genres": ["rock", "pop", "jazz", "classical", "hip-hop", "electronic", "country", "blues", "metal"],
-    "terms": ["song", "album", "artist", "band", "music", "track", "lyrics", "concert", "performance", "vinyl"],
-    "instruments": ["guitar", "piano", "drums", "bass", "saxophone", "violin", "cello", "flute", "trumpet"],
-    "hifi_gear": ["turntable", "amplifier", "speaker", "headphones", "phono preamp", "DAC", "receiver", "subwoofer", "cable"]
+    "genres": [
+        "rock", "pop", "jazz", "classical", "hip-hop", "electronic", "country",
+        "blues", "metal"
+    ],
+    "terms": [
+        "song", "album", "artist", "band", "music", "track", "lyrics",
+        "concert", "performance", "vinyl"
+    ],
+    "instruments": [
+        "guitar", "piano", "drums", "bass", "saxophone", "violin", "cello",
+        "flute", "trumpet"
+    ],
+    "hifi_gear": [
+        "turntable", "amplifier", "speaker", "headphones", "phono preamp",
+        "DAC", "receiver", "subwoofer", "cable"
+    ]
 }
+
 
 def extract_music_keywords(text):
     # Process the text using spaCy
@@ -37,17 +53,32 @@ def extract_music_keywords(text):
     tokens = [token.text for token in doc]
     named_entities = [(ent.text, ent.label_) for ent in doc.ents]
 
-
     # Identify music-related keywords
     identified_keywords = {
-        "tokens": [token for token in tokens if token.lower() in music_keywords["terms"]],
-        "genres": [token for token in tokens if token.lower() in music_keywords["genres"]],
-        "instruments": [token for token in tokens if token.lower() in music_keywords["instruments"]],
-        "hifi_gear": [token for token in tokens if token.lower() in music_keywords["hifi_gear"]],
-        "entities": [ent for ent in named_entities if ent[1] in ["PERSON", "ORG", "WORK_OF_ART", "DATE", "ORG", "GPE"]]
+        "tokens": [
+            token for token in tokens
+            if token.lower() in music_keywords["terms"]
+        ],
+        "genres": [
+            token for token in tokens
+            if token.lower() in music_keywords["genres"]
+        ],
+        "instruments": [
+            token for token in tokens
+            if token.lower() in music_keywords["instruments"]
+        ],
+        "hifi_gear": [
+            token for token in tokens
+            if token.lower() in music_keywords["hifi_gear"]
+        ],
+        "entities": [
+            ent for ent in named_entities if ent[1] in
+            ["PERSON", "ORG", "WORK_OF_ART", "DATE", "ORG", "GPE"]
+        ]
     }
 
     return identified_keywords
+
 
 def append_relevant_articles(keywords, articles, messages):
     relevant_articles = search_articles(keywords, articles)
@@ -56,6 +87,7 @@ def append_relevant_articles(keywords, articles, messages):
         if content:
             messages.append({"role": "system", "content": content})
     return messages
+
 
 def flatten_keywords(keywords):
     flattened_keywords = []
@@ -71,16 +103,21 @@ def flatten_keywords(keywords):
         flattened_keywords += entity_names
 
     # Remove "music" if it exists in the list
-    flattened_keywords = [keyword for keyword in flattened_keywords if keyword.lower() != 'music']
+    flattened_keywords = [
+        keyword for keyword in flattened_keywords if keyword.lower() != 'music'
+    ]
 
     return flattened_keywords
+
 
 def search_articles(keywords, articles):
     relevant_articles = []
     for article in articles:
-        if any(keyword.lower() in article['title'].lower() for keyword in keywords):
+        if any(keyword.lower() in article['title'].lower()
+               for keyword in keywords):
             relevant_articles.append(article)
     return relevant_articles
+
 
 def append_relevant_articles(keywords, articles, messages):
     relevant_articles = search_articles(keywords, articles)
@@ -96,7 +133,8 @@ def append_relevant_articles(keywords, articles, messages):
             messages.append({"role": "system", "content": message_content})
             seen_articles.add(link)
 
-    return 
+    return
+
 
 def fetch_articles_from_page(url):
     response = requests.get(url)
@@ -107,22 +145,33 @@ def fetch_articles_from_page(url):
     for article in soup.find_all('div', class_='grid-item item-s-9'):
         title_tag = article.find('h2', class_='font-cond font-size-large')
         link_tag = title_tag.find('a') if title_tag else None
-        summary_tag = article.find_next_sibling('div', class_='grid-item font-mono font-color-grey')
+        summary_tag = article.find_next_sibling(
+            'div', class_='grid-item font-mono font-color-grey')
 
         if title_tag and link_tag:
             title = title_tag.text.strip()
             link = link_tag['href']
-            summary = summary_tag.text.strip() if summary_tag else 'No summary available'
+            summary = summary_tag.text.strip(
+            ) if summary_tag else 'No summary available'
 
             # Filter out unwanted guest author URLs and keep searching the correct ones
             if "guest_author" in link:
                 correct_link = find_correct_link(article)
                 if correct_link:
-                    articles.append({'title': title, 'link': correct_link, 'summary': summary})
+                    articles.append({
+                        'title': title,
+                        'link': correct_link,
+                        'summary': summary
+                    })
             else:
-                articles.append({'title': title, 'link': link, 'summary': summary})
+                articles.append({
+                    'title': title,
+                    'link': link,
+                    'summary': summary
+                })
 
     return articles
+
 
 def find_correct_link(article):
     # Attempt to find the correct link within the same article block
@@ -132,12 +181,14 @@ def find_correct_link(article):
             return href
     return None
 
+
 # Function to find the next page link
 def get_next_page(soup):
     next_page = soup.find('a', class_='next page-numbers')
     if next_page:
         return next_page['href']
     return None
+
 
 # Function to fetch all articles from all pages
 def fetch_all_articles(base_url):
@@ -154,6 +205,7 @@ def fetch_all_articles(base_url):
         url = get_next_page(soup)  # Get the next page URL, if available
 
     return articles
+
 
 def fetch_article_content(url):
     try:
@@ -188,6 +240,7 @@ def fetch_article_content(url):
 
     return full_content
 
+
 # Function to save articles to a JSON file
 def save_articles(articles, filename='articles.json'):
     # Check if the file already exists
@@ -204,10 +257,3 @@ def save_articles(articles, filename='articles.json'):
     # Write the updated list of articles back to the file
     with open(filename, 'w') as f:
         json.dump(existing_articles, f, indent=4)
-
-# Function to load articles from a JSON file
-def load_articles(filename='articles.json'):
-    with open(filename, 'r') as f:
-        return json.load(f)
-
-
